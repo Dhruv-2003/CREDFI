@@ -15,7 +15,7 @@ const main = async () =>{
   
 
   const TokenFarm = await hre.ethers.getContractFactory("TokenFarm");
-  const tokenFarm = await TokenFarm.deploy(TokenFarm, cfiToken.address, daiToken.address);
+  const tokenFarm = await TokenFarm.deploy(cfiToken.address, daiToken.address);
 
   await tokenFarm.deployed();
   console.log("TokenFarm deployed to:", tokenFarm.address);

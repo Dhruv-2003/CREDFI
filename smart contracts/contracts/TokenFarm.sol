@@ -11,9 +11,15 @@ contract TokenFarm {
     DaiToken public daiToken;
 
     address[] public stakers;
-    mapping(address => uint) public stakingBalance;
+    address[] public borrowers;
+    mapping(address => uint) public userBalance;
+    mapping(address => uint) public borrowBalance ;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
+    mapping(address => bool) public isBorrowing ;
+    mapping(address => bool) public hasBorrowed ;
+
+
 
     constructor(CfiToken _cfiToken, DaiToken _daiToken) {
         cfiToken = _cfiToken;
@@ -21,7 +27,9 @@ contract TokenFarm {
         owner = msg.sender;
     }
 
-    function stakeTokens(uint _amount) public {
+    ///Lender
+
+    function supply(uint _amount) public {
         // Require amount greater than 0
         require(_amount > 0, "amount cannot be 0");
 
@@ -29,7 +37,7 @@ contract TokenFarm {
         daiToken.transferFrom(msg.sender, address(this), _amount);
 
         // Update staking balance
-        stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
+        userBalance[msg.sender] = userBalance[msg.sender] + _amount;
 
         // Add user to stakers array *only* if they haven't staked already
         if(!hasStaked[msg.sender]) {
@@ -42,9 +50,9 @@ contract TokenFarm {
     }
 
     // Unstaking Tokens (Withdraw)
-    function unstakeTokens() public {
+    function withdraw() public {
         // Fetch staking balance
-        uint balance = stakingBalance[msg.sender];
+        uint balance = userBalance[msg.sender];
 
         // Require amount greater than 0
         require(balance > 0, "staking balance cannot be 0");
@@ -53,7 +61,7 @@ contract TokenFarm {
         daiToken.transfer(msg.sender, balance);
 
         // Reset staking balance
-        stakingBalance[msg.sender] = 0;
+        userBalance[msg.sender] = 0;
 
         // Update staking status
         isStaking[msg.sender] = false;
@@ -67,10 +75,62 @@ contract TokenFarm {
         // Issue tokens to all stakers
         for (uint i=0; i<stakers.length; i++) {
             address recipient = stakers[i];
-            uint balance = stakingBalance[recipient];
+            uint balance = userBalance[recipient];
             if(balance > 0) {
                 cfiToken.transfer(recipient, balance);
             }
         }
     }
+
+    //// Borrower
+
+    //sending token for the borrowers to the account
+    function borrow(uint amount) public {
+         // Require amount greater than 0
+        require(amount > 0, "amount cannot be 0");
+
+        // need to check if NFT is rcvd or not and then call this function.
+        // Transfer Mock Dai tokens to this contract for staking
+        daiToken.transfer(msg.sender, amount);
+
+        // Set user balance 
+        borrowBalance[msg.sender] = amount;
+
+        // Update staking status
+        isBorrowing[msg.sender] = true ;
+        hasBorrowed[msg.sender] =true ;
+        
+
+        // Add user to stakers array *only* if they haven't staked already
+        if(!hasBorrowed[msg.sender]) {
+            borrowers.push(msg.sender);
+        }
+
+        
+
+    }
+
+    //Repaying the loan amount
+    function repay(uint intrest) public {
+        //fetching the balance borrowed
+        uint amount = borrowBalance[msg.sender] ;
+
+        // Require amount greater than 0
+        require(amount > 0, "amount cannot be 0");
+
+        // total amount
+        uint finalAmount= borrowBalance[msg.sender] + intrest ;
+
+        // Trasnfer Mock Dai tokens to this contract for repay
+        daiToken.transferFrom(msg.sender, address(this), finalAmount);
+
+        // Update borrowed balance
+        borrowBalance[msg.sender] = 0 ;
+
+        // Update borrowing status
+        isBorrowing[msg.sender] = false;
+        
+    }
+
+
 }

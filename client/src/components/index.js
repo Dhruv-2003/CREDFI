@@ -5,5 +5,4 @@ export { default as Welcome } from './Welcome' ;
 export { default as Transaction } from './Transaction' ;
 export { default as Footer } from './Footer' ;
 export { default as NftCard } from './Nftcard' ;
-export { default as connectWallet } from './WalletCard' ;
-export { default as ConnectWallet} from './ConnectWallet' ;
+export { default as ConectWallet} from './ConnectWallet' ;

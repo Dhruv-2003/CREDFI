@@ -1,9 +1,6 @@
 import { AiFillPlayCircle } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import {ethers} from 'ethers' ;
-
-
-import ConnectWallet from "./ConnectWallet";
 import Card from '../../images/Card.png' ;
 const commonStyles= "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white" ;
 
@@ -22,23 +19,16 @@ const Welcome = () => {
                        You can Buy NFTs Now , Pay Later 
 
                    </p>
+                  
                    <button 
                    type="button"
-                   onClick= {ConnectWallet}
                    className="flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd] w-3/5"
                    >
-                    <p className="text-white text-base font-semibold">Connect Wallet </p>  
+                    <p className="text-white text-base font-semibold">Join now</p>  
 
                    </button> 
 
-                   <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
-                       <div className={`rounded-tl-2xl ${commonStyles}`}>Security</div>
-                       <div className={commonStyles}>Reliability</div>
-                       <div className={`sm:rounded-tr-2xl ${commonStyles}`}>Transparency</div>
-                       <div className={`rounded-bl-2xl ${commonStyles}`}>Polygon</div>
-                       <div className={commonStyles}>Web3.0</div>
-                       <div className={`sm:rounded-br-2xl ${commonStyles}`}>NFTs</div>
-                   </div>
+                   
                    
                </div>
                <div className="flex flex-col flex-1 items-center justify-start w-full md:mt-0 mt-10">

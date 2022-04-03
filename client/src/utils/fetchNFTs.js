@@ -1,5 +1,5 @@
-const apiKey="ajdDYBnTYp195KzRPtl-SXOuF3mHqC2B"
-const endpoint = `https://eth-mainnet.io/v2/${apiKey}`;
+//const apiKey="OY4aWRqKPHkeGTAyp2nbnciqfr2YKsOG"
+const endpoint = `https://eth-mainnet.alchemyapi.io/v2/OY4aWRqKPHkeGTAyp2nbnciqfr2YKsOG`;
 
 const getAddressNFTs = async (owner, contractAddress, retryAttempt) => {
     if (retryAttempt === 5) {
@@ -52,6 +52,7 @@ const fetchNFTs = async (owner, contractAddress, setNFTs) => {
         const NFTs = await getNFTsMetadata(data.ownedNfts)
         let fullfilledNFTs = NFTs.filter(NFT => NFT.status == "fulfilled")
         setNFTs(fullfilledNFTs)
+        
     } else {
         setNFTs(null)
     }
