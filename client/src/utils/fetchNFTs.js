@@ -1,5 +1,5 @@
-//const apiKey="OY4aWRqKPHkeGTAyp2nbnciqfr2YKsOG"
-const endpoint = `https://eth-mainnet.alchemyapi.io/v2/OY4aWRqKPHkeGTAyp2nbnciqfr2YKsOG`;
+const API_URL = process.env ;
+const endpoint = API_URL ;
 
 const getAddressNFTs = async (owner, contractAddress, retryAttempt) => {
     if (retryAttempt === 5) {
